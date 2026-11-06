@@ -23,6 +23,13 @@ public final class InMemoryBehaviorRepository implements BehaviorRepository {
     }
 
     @Override
+    public List<UserBehavior> listSince(String since) {
+        return behaviors.stream()
+                .filter(behavior -> behavior.occurredAt() != null && behavior.occurredAt().compareTo(since) >= 0)
+                .toList();
+    }
+
+    @Override
     public BehaviorWriteResult saveBehavior(UserBehavior behavior) {
         for (UserBehavior stored : behaviors) {
             if (sameAction(stored, behavior.userId(), behavior.type(), behavior.grantId())) {

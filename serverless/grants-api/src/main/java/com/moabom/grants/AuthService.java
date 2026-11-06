@@ -88,6 +88,27 @@ public final class AuthService {
         return Map.of("user", publicUser(updated));
     }
 
+    /** 현재 비밀번호를 확인한 뒤 새 비밀번호로 바꾼다. 세션(토큰)은 그대로 유지된다. */
+    public Map<String, Object> changePassword(String userId, String body) {
+        Account account = accounts.findByUserId(userId)
+                .orElseThrow(() -> new AuthenticationFailure("인증된 사용자를 찾을 수 없습니다."));
+        JsonNode payload = object(body);
+        String current = text(payload.get("currentPassword"));
+        String next = text(payload.get("newPassword"));
+        if (current.isBlank() || next.isBlank()) {
+            throw new IllegalArgumentException("현재 비밀번호와 새 비밀번호를 입력해 주세요.");
+        }
+        if (!passwords.matches(current, account.passwordHash())) {
+            throw new IllegalArgumentException("현재 비밀번호가 올바르지 않습니다.");
+        }
+        if (current.equals(next)) {
+            throw new IllegalArgumentException("새 비밀번호가 현재 비밀번호와 같습니다.");
+        }
+        validatePassword(next, account.loginId());
+        accounts.replace(account.withPasswordHash(passwords.hash(next)));
+        return Map.of("changed", true);
+    }
+
     public Map<String, Object> loginIdAvailability(String loginIdValue) {
         String loginId = loginId(loginIdValue == null ? null : MAPPER.getNodeFactory().textNode(loginIdValue));
         Map<String, Object> body = new LinkedHashMap<>();

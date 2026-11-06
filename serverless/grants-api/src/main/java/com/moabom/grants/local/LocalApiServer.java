@@ -25,6 +25,7 @@ import com.moabom.grants.InMemoryUserProfileRepository;
 import com.moabom.grants.ListBehaviorsHandler;
 import com.moabom.grants.ListGrantsHandler;
 import com.moabom.grants.PolicyImportHandler;
+import com.moabom.grants.PopularGrantsHandler;
 import com.moabom.grants.PostBehaviorHandler;
 import com.moabom.grants.PutProfileHandler;
 import com.moabom.grants.RecommendHandler;
@@ -60,6 +61,7 @@ public final class LocalApiServer {
     private final Object requestLock = new Object();
     private final ListGrantsHandler listGrants;
     private final GetGrantHandler getGrant;
+    private final PopularGrantsHandler popularGrants;
     private final PutProfileHandler putProfile;
     private final GetProfileHandler getProfile;
     private final PostBehaviorHandler postBehavior;
@@ -82,6 +84,7 @@ public final class LocalApiServer {
         AccessTokens sessionTokens = tokens.withRevocations(new InMemoryTokenRevocationRepository());
         this.listGrants = new ListGrantsHandler(grants);
         this.getGrant = new GetGrantHandler(grants);
+        this.popularGrants = new PopularGrantsHandler(grants, behaviors, java.time.Clock.systemUTC());
         this.putProfile = new PutProfileHandler(profiles, sessionTokens);
         this.getProfile = new GetProfileHandler(profiles, sessionTokens);
         this.postBehavior = new PostBehaviorHandler(grants, profiles, behaviors, sessionTokens);
@@ -206,6 +209,10 @@ public final class LocalApiServer {
         if ("/auth/me".equals(path) && ("GET".equals(method) || "PATCH".equals(method))) {
             return me.handleRequest(event, null);
         }
+        if ("PATCH".equals(method) && "/auth/password".equals(path)) {
+            event.setResource("/auth/password");
+            return me.handleRequest(event, null);
+        }
         if ("GET".equals(method) && "/auth/login-id".equals(path)) {
             return loginId.handleRequest(event, null);
         }
@@ -217,6 +224,9 @@ public final class LocalApiServer {
         }
         if ("GET".equals(method) && "/grants".equals(path)) {
             return listGrants.handleRequest(event, null);
+        }
+        if ("GET".equals(method) && "/grants/popular".equals(path)) {
+            return popularGrants.handleRequest(event, null);
         }
         if ("GET".equals(method) && path.startsWith("/grants/")) {
             event.setPathParameters(Map.of("id", path.substring("/grants/".length())));

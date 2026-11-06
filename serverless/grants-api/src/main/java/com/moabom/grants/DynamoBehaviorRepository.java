@@ -7,6 +7,8 @@ import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
+import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
+import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -67,6 +69,35 @@ public final class DynamoBehaviorRepository implements BehaviorRepository {
                 .thenComparing(UserBehavior::grantId));
         if (behaviors.size() > 500) {
             return List.copyOf(behaviors.subList(0, 500));
+        }
+        return List.copyOf(behaviors);
+    }
+
+    /** 최근 기록만 골라 읽는다. 무한히 읽지 않도록 최대 5,000건에서 멈춘다. */
+    @Override
+    public List<UserBehavior> listSince(String since) {
+        List<UserBehavior> behaviors = new ArrayList<>();
+        Map<String, AttributeValue> startKey = null;
+        for (int page = 0; page < 50 && behaviors.size() < 5000; page++) {
+            ScanRequest.Builder request = ScanRequest.builder()
+                    .tableName(tableName)
+                    .filterExpression("occurredAt >= :since")
+                    .expressionAttributeValues(Map.of(":since", AttributeValue.fromS(since)))
+                    .limit(500);
+            if (startKey != null) {
+                request.exclusiveStartKey(startKey);
+            }
+            ScanResponse response = dynamoDb.scan(request.build());
+            for (Map<String, AttributeValue> item : response.items()) {
+                UserBehavior behavior = toBehavior(text(item.get("userId")), item);
+                if (behavior != null && behavior.userId() != null) {
+                    behaviors.add(behavior);
+                }
+            }
+            if (response.lastEvaluatedKey() == null || response.lastEvaluatedKey().isEmpty()) {
+                break;
+            }
+            startKey = response.lastEvaluatedKey();
         }
         return List.copyOf(behaviors);
     }

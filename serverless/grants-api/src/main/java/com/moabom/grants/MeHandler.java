@@ -38,6 +38,9 @@ public final class MeHandler
         }
         try {
             String userId = activeTokens.verifiedSubject(event);
+            if ("PATCH".equals(event.getHttpMethod()) && isPasswordRoute(event)) {
+                return ApiResponses.localDev(200, auth.changePassword(userId, event.getBody()));
+            }
             if ("PATCH".equals(event.getHttpMethod())) {
                 return ApiResponses.localDev(200, auth.update(userId, event.getBody()));
             }
@@ -51,5 +54,12 @@ public final class MeHandler
         } catch (RuntimeException ex) {
             return ApiResponses.error(500, "사용자 정보를 처리하지 못했습니다.", true);
         }
+    }
+
+    /** PATCH /auth/password 도 이 함수가 처리한다. */
+    private static boolean isPasswordRoute(APIGatewayProxyRequestEvent event) {
+        String resource = event.getResource();
+        String path = resource != null ? resource : event.getPath();
+        return path != null && path.endsWith("/auth/password");
     }
 }

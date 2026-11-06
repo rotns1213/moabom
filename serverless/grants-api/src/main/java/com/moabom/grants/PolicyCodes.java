@@ -11,13 +11,21 @@ public final class PolicyCodes {
             "SINGLE",
             "NEWLYWED",
             "MULTI_CHILD",
-            "SINGLE_PARENT"
+            "SINGLE_PARENT",
+            "MULTICULTURAL"
     );
     public static final Set<String> SPECIALS = Set.of(
             "DISABLED",
             "VETERAN",
             "NEWLYWED",
             "MULTI_CHILD",
+            "BASIC_LIVING",
+            "NEAR_POVERTY",
+            "CARE_LEAVER",
+            "NORTH_DEFECTOR",
+            "PREGNANT",
+            "SOLDIER",
+            "FARMER",
             "OTHER"
     );
 

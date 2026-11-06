@@ -132,7 +132,7 @@ Resources:
     Properties:
       StageName: dev
       Cors:
-        AllowMethods: "'GET,PUT,POST,DELETE,OPTIONS'"
+        AllowMethods: "'GET,PUT,PATCH,POST,DELETE,OPTIONS'"
         AllowHeaders: "'Content-Type,Authorization'"
         AllowOrigin: "'*'"
 
@@ -182,6 +182,35 @@ Resources:
           Properties:
             RestApiId: !Ref MoabomGrantsApi
             Path: /grants/{id}
+            Method: GET
+
+  PopularGrantsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: moabom-popular-grants
+      CodeUri: grants-api/
+      Handler: com.moabom.grants.PopularGrantsHandler::handleRequest
+      Description: Real-time HOT ranking from the last 7 days of views and scraps (no personal data in the response).
+      Environment:
+        Variables:
+          GRANTS_TABLE_NAME: !Ref GrantsTable
+          BEHAVIORS_TABLE_NAME: !Ref UserBehaviorsTable
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:Query
+              Resource: !GetAtt GrantsTable.Arn
+            - Effect: Allow
+              Action:
+                - dynamodb:Scan
+              Resource: !GetAtt UserBehaviorsTable.Arn
+      Events:
+        GetPopularGrants:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MoabomGrantsApi
+            Path: /grants/popular
             Method: GET
 
   ListUserBehaviorsFunction:
@@ -497,7 +526,7 @@ Resources:
       FunctionName: moabom-me
       CodeUri: grants-api/
       Handler: com.moabom.grants.MeHandler::handleRequest
-      Description: Current user read and profile-field update.
+      Description: Current user read, profile-field update and password change.
       Environment:
         Variables:
           ACCOUNTS_TABLE_NAME: !Ref AccountsTable
@@ -524,6 +553,12 @@ Resources:
           Properties:
             RestApiId: !Ref MoabomGrantsApi
             Path: /auth/me
+            Method: PATCH
+        PatchPassword:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MoabomGrantsApi
+            Path: /auth/password
             Method: PATCH
 
   LoginIdFunction:
