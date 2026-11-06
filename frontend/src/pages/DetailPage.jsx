@@ -4,6 +4,7 @@ import styles from '../styles/DetailPage.module.css';
 import { cancelScrap, getBehaviors, getGrant, getRecommendations, recordEvent } from '../api/moabomApi';
 import { useAuth } from '../auth/AuthContext';
 import { HOUSEHOLD_OPTIONS, SPECIAL_OPTIONS, labelText } from '../api/policyLabels';
+import { cleanTitle } from '../api/displayText';
 
 function conditionText(clarity, codes, options) {
   if (clarity === 'UNRESTRICTED') {
@@ -143,7 +144,7 @@ const DetailPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.contentWrapper}>
-        <h1 className={styles.mainTitle}>{grant ? grant.title : '지원금 상세 정보'}</h1>
+        <h1 className={styles.mainTitle}>{grant ? cleanTitle(grant.title) : '지원금 상세 정보'}</h1>
         <div className={styles.posterContainer} />
         {loading && <p className={styles.sectionContent}>지원금을 불러오는 중입니다.</p>}
         {error && <p className={styles.sectionContent}>{error}</p>}

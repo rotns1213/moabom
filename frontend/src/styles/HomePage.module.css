@@ -1,323 +1,1486 @@
+/* ==================================================================
+   홈 화면 — 흰 바탕 + 얇은 선 + 파랑은 강조할 때만
+   색상 (모아봄 기존 색)
+     파랑 #1f4fbf / 진한 파랑 #173e99 / 연파랑 #f0f4fc
+     글자 #222 · #555 · #8a8a8a / 선 #ececec / 옅은 회색 바탕 #fafafa
+   ================================================================== */
+
 .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f7f7f7; /* 페이지 전체 배경색 */
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background: #fff;
+  color: #222;
 }
 
-
-/* 1. 헤더 스타일 (왼쪽부터 균등 간격 배치) */
-.header {
-    width: 100%;
-    background-color: white; 
-    display: flex;
-    /* 핵심: headerWrapper 전체를 화면 중앙으로 이동 */
-    justify-content: center; 
-    align-items: center;
-    
-    padding: 15px 40px; 
-    position: relative; 
-    z-index: 1000;
-    box-sizing: border-box; 
-    border-bottom: 1px solid #eee; 
+/* ---------- 1. 첫 화면 ---------- */
+.hero {
+  display: grid;
+  /* 배치: 1줄 = 배너 | 반가워요 카드, 2줄 = 맞춤 카테고리 | 실시간 HOT
+     크기는 내용에 맞게 늘어나되, 같은 줄의 두 칸은 높이를 서로 맞춤 */
+  grid-template-columns: minmax(0, 1fr) 340px;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    'banner card'
+    'quick hot';
+  gap: 20px 28px;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px clamp(16px, 3vw, 40px) 24px;
 }
 
-/* 2. headerWrapper: 로고와 nav 컨테이너 사이의 간격을 설정합니다. */
-.headerWrapper {
-    display: flex;
-    align-items: center;
-    gap: 250px; 
+.heroMain {
+  display: contents; /* 안쪽 칸들을 위 격자에 바로 배치 */
 }
 
-/* 3. nav: 메뉴 링크들 사이의 간격을 설정합니다. */
-.nav {
-    display: flex;
-    align-items: center;
-    gap: 250px; 
+/* 배너: 코발트 → 네이비 */
+.banner {
+  grid-area: banner;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 280px;
+  padding: 36px 56px 36px 68px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(125deg, #2a5fd6 0%, #1f4fbf 40%, #0e2a66 100%);
+  color: #fff;
 }
 
-/* 4. logo & navLink (폰트 스타일 통일) */
-.logo {
-    font-size: 14px; 
-    font-weight: bold; 
-    color: #ff85a1;
-    white-space: nowrap; 
-}
-.navLink {
-    text-decoration: none;
-    color: #333; 
-    font-size: 14px;
-    font-weight: 500;
-    white-space: nowrap; 
-}
-
-.mainBanner {
-    position: relative;
-    height: 550px;
-    width: 100%; 
-    
-    /* [수정] 배경 이미지 경로는 HomePage.jsx에서 인라인 스타일로 처리합니다. */
-    /* background-image: url('../assets/images/ex.jpg'); */ 
-    
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat; 
-    
-    color: white;
-    display: flex;
-    justify-content: center; 
-    padding-top: 0; 
-}
-
-/* 배너 내부 콘텐츠 래퍼 (중앙 정렬 및 텍스트 위치 조정) */
-.bannerWrapper {
-    max-width: 1200px; 
-    width: 100%; 
-    height: 100%;
-    display: flex; 
-    align-items: flex-start; 
-    justify-content: flex-start; 
-    
-    padding: 130px 40px 0 40px;
-    box-sizing: border-box; 
-}
-
-.bannerContent {
-    text-align: left;
-    max-width: 400px; 
+.bannerText {
+  position: relative;
+  z-index: 1;
+  max-width: 58%;
 }
 
 .bannerTitle {
-    font-size: 40px; 
-    font-weight: 800; 
-    line-height: 1.2;
-    margin: 0 0 20px 0;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); 
+  margin: 0;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
 }
 
-.bannerButtons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 15px; 
+.bannerLead {
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 15px;
+  line-height: 1.6;
 }
 
-.supportButton {
-    background-color: #ff85a1; 
-    color: white;
-    border: 1px solid #ff85a1;
-    padding: 10px 20px; 
-    border-radius: 6px; 
-    font-weight: bold;
-    cursor: pointer;
+.bannerButton {
+  margin-top: 22px;
+  height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  color: #0e2a66;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.loginButton {
-    background-color: white;
-    color: #555; 
-    border: 1px solid #ddd; 
-    padding: 10px 20px; 
-    border-radius: 6px; 
-    font-weight: bold;
-    cursor: pointer;
-    white-space: nowrap;
+.bannerButton:hover {
+  background: #f0f4fc;
 }
 
+/* 배너 오른쪽 그림: 모아 + 동그라미 장식 */
+.bannerArt {
+  position: absolute;
+  right: 56px;
+  bottom: 0;
+  width: 260px;
+  height: 100%;
+}
 
-/* 3. 메인 콘텐츠 영역 (중앙 정렬) */
+.ringBig,
+.ringSmall {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ringBig {
+  right: -10px;
+  bottom: -60px;
+  width: 260px;
+  height: 260px;
+}
+
+.ringSmall {
+  left: 0;
+  top: 24px;
+  width: 90px;
+  height: 90px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.bannerMoa {
+  position: absolute;
+  right: 30px;
+  bottom: 4px;
+  width: auto;
+  height: 214px;
+}
+
+.bannerBadge {
+  position: absolute;
+  top: 30px;
+  left: 6px;
+  z-index: 1;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+}
+
+/* 배너 좌우 화살표 */
+.bannerArrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #1c2333;
+  box-shadow: 0 2px 8px rgba(14, 42, 102, 0.25);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.bannerArrow svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.arrowPrev {
+  left: 10px;
+}
+
+.arrowNext {
+  right: 10px;
+}
+
+.bannerCount {
+  position: absolute;
+  right: 56px;
+  bottom: 16px;
+  z-index: 2;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(14, 42, 102, 0.55);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 오른쪽: 로그인 + 마감 임박 ---------- */
+.side {
+  display: contents; /* 안쪽 칸들을 위 격자에 바로 배치 */
+}
+
+.loginBox {
+  grid-area: card;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dfe5ef;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.loginButtons {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.loginHalf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+  color: #1c2333;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.loginHalf + .loginHalf {
+  border-left: 1px solid #dfe5ef;
+}
+
+.loginHalf svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.loginHalf:hover {
+  background: #f0f4fc;
+  color: #1f4fbf;
+}
+
+.loginStrip {
+  display: block;
+  padding: 12px;
+  border-top: 1px solid #dfe5ef;
+  background: #f6f8fc;
+  color: #3b4354;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.loginStrip:hover {
+  color: #1f4fbf;
+}
+
+/* 로그인한 회원 카드 (흰 박스, 높이는 배너와 같게 고정) */
+.memberBox {
+  padding: 20px;
+}
+
+.greeting {
+  flex: 0 0 auto;
+  margin: 0;
+  color: #1c2333;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* 인사말 아래 한 줄: 맞는 지원금 N건 → 추천 영역으로 이동 */
+.greetingSub {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  align-self: flex-start;
+  margin: 6px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #3b4354;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.greetingSub strong {
+  color: #1f4fbf;
+  font-weight: 700;
+}
+
+.greetingSub svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.greetingSub:hover {
+  color: #1f4fbf;
+}
+
+.greetingNote {
+  margin: 6px 0 0;
+  color: #6b7486;
+  font-size: 14px;
+}
+
+/* 알림 · 스크랩 타일 */
+.quickTiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 16px 0 0;
+}
+
+.quickTile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: #f0f4fc;
+  color: #1c2333;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.quickTile:hover {
+  background: #e3ebfa;
+  color: #1f4fbf;
+}
+
+.tileCount {
+  margin-left: auto;
+  color: #1f4fbf;
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 내 관심 카테고리 제목 줄 */
+.tagHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 18px 0 8px;
+  color: #6b7486;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* 태그와 마이페이지 버튼 사이 간격 */
+.memberBox > .chips,
+.memberBox > .profileEmpty,
+.memberBox > .interestError {
+  margin-bottom: 16px;
+}
+
+/* +N : 4개 이상 골랐을 때 */
+.chipMore {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px dashed #b8c4da;
+  border-radius: 999px;
+  color: #6b7486;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.chipMore:hover {
+  border-color: #1f4fbf;
+  color: #1f4fbf;
+}
+
+.greeting strong {
+  color: #1f4fbf;
+  font-weight: 800;
+}
+
+/* 해시태그 영역 */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 6px 0 0;
+  list-style: none;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid #c9d7f2;
+  border-radius: 999px;
+  background: #f0f4fc;
+  color: #1f4fbf;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* 마우스를 올리면 오른쪽 위에 작은 x 버튼 */
+.chipRemove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #0e2a66;
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.15s, transform 0.15s;
+  cursor: pointer;
+}
+
+.chipRemove svg {
+  width: 10px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.chip:hover,
+.chip:focus-within {
+  border-color: #1f4fbf;
+}
+
+.chip:hover .chipRemove,
+.chipRemove:focus-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.chipRemove:hover {
+  background: #e5383b;
+}
+
+/* 마우스가 없는 휴대폰·태블릿은 x 버튼을 항상 보여줌 */
+@media (hover: none) {
+  .chipRemove {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.profileEmpty {
+  flex: 1 1 auto;
+  margin: 0;
+  color: #3b4354;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.interestError {
+  margin: 8px 0 0;
+  color: #e5383b;
+  font-size: 13px;
+}
+
+/* 마이페이지 바로가기: 메인 색 포인트 버튼 (카드 맨 아래 고정) */
+.mypageLink {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 46px;
+  margin-top: auto; /* 카드가 늘어나면 맨 아래에 붙음 */
+  border-radius: 8px;
+  background: #1f4fbf;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.mypageLink svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mypageLink:hover {
+  background: #173e99;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chipRemove {
+    transition: none;
+  }
+}
+
+/* 실시간 HOT 지원금 */
+.hotBox {
+  grid-area: hot;
+  min-width: 0;
+  padding: 18px 20px 10px;
+  border: 1px solid #1f4fbf;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.hotHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eef0f4;
+}
+
+.hotTitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: #1c2333;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.flame {
+  width: 18px;
+  height: 18px;
+  fill: #ff6b2c;
+}
+
+.flameInner {
+  fill: #ffc23d;
+}
+
+.hotTime {
+  color: #8a94a6;
+  font-size: 12px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.hotEmpty {
+  margin: 14px 0 8px;
+  color: #8a94a6;
+  font-size: 14px;
+}
+
+.hotList {
+  margin: 0;
+  padding: 6px 0 0;
+  list-style: none;
+}
+
+.hotItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  color: #1c2333;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.hotItem:hover .hotName {
+  color: #1f4fbf;
+  text-decoration: underline;
+}
+
+.hotRank {
+  flex: 0 0 16px;
+  color: #3b4354;
+  font-weight: 700;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 1~3위는 파란 숫자 */
+.hotTop {
+  color: #1f4fbf;
+}
+
+.hotName {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 순위 변동: 상승 빨강, 하락 파랑, 새로 진입 주황 */
+.hotChange {
+  flex: 0 0 auto;
+  min-width: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.up {
+  color: #e5383b;
+}
+
+.down {
+  color: #1f4fbf;
+}
+
+.same {
+  color: #b0b7c3;
+}
+
+.isNew {
+  color: #ff6b2c;
+  font-size: 11px;
+}
+
+.bannerButton:focus-visible,
+.bannerArrow:focus-visible,
+.loginHalf:focus-visible,
+.loginStrip:focus-visible,
+.mypageLink:focus-visible,
+.greetingSub:focus-visible,
+.quickTile:focus-visible,
+.chipMore:focus-visible,
+.hotItem:focus-visible {
+  outline: 2px solid #0e2a66;
+  outline-offset: 2px;
+}
+
+/* 자주 찾는 지원금 */
+.quickPanel {
+  grid-area: quick;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 22px 24px 24px;
+  border: 1px solid #dce6f8;
+  border-radius: 20px;
+  background: #f0f4fc;
+}
+
+.quickHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.quickTitle {
+  margin: 0;
+  color: #222;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.quickNote {
+  margin: 4px 0 0;
+  color: #6b7486;
+  font-size: 13px;
+}
+
+.quickMore {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.quickMore:hover {
+  color: #173e99;
+}
+
+.quickGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: auto 0 0; /* 남는 여백은 안내 문구와 버튼 사이로, 버튼은 칸 아래에 붙음 */
+  padding: 0;
+  list-style: none;
+}
+
+.quickItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 52px;
+  padding: 0 14px 0 16px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: #fff;
+  color: #222;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.quickItem span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.quickItem:hover {
+  border-color: #a9bfee;
+}
+
+.quickIcon {
+  flex: 0 0 auto;
+  filter: drop-shadow(0 2px 3px rgba(23, 62, 153, 0.2));
+}
+
+.quickItem:focus-visible,
+.quickMore:focus-visible {
+  outline: 2px solid #222;
+  outline-offset: 2px;
+}
+
+/* ---------- 공통 ---------- */
 .contentArea {
-    max-width: 1200px; 
-    margin: 0 auto; 
-    width: 100%;
-    padding: 0 40px; 
-    box-sizing: border-box;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px) 96px;
 }
 
-/* 4. 검색창 스타일 */
-.searchBarContainer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    margin-bottom: 50px;
-}
-
-/* 검색창 입력 필드 스타일 수정 */
-.searchBarInput {
-    width: 900px; 
-    padding: 18px 25px; 
-    font-size: 16px;
-    
-    /* 테두리 스타일 */
-    border: 1px solid #ccc;
-    border-radius: 25px; 
-}
-
-
-/* 5. 섹션 제목 */
-.sectionTitle {
-    font-size: 20px; 
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-    margin-top: 30px; 
-}
-
-/* 6. 전체 너비 카드 */
-.fullWidthCard {
-    width: 100%;
-    height: 150px;
-    background-color: white; 
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eee;
-    margin-bottom: 30px;
-}
-
-/* 7. 페이지네이션/슬라이더 컨트롤 */
-.paginationControls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 40px;
-}
-
-.paginationButton {
-    background-color: #333;
-    color: white;
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 14px;
-    line-height: 1;
+.section {
+  padding-top: 40px;
+  scroll-margin-top: 16px;
 }
 
 .sectionHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px; 
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-/* 8. 스크롤 버튼 그룹 */
-.scrollControls {
-    display: flex;
-    gap: 10px;
+.sectionTitle {
+  margin: 0;
+  color: #222;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
 }
 
-/* 9. 스크롤 버튼 스타일 */
-.scrollButton {
-    background: #eee;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    line-height: 30px; 
-    text-align: center;
-    transition: background 0.2s;
+.sectionLead {
+  margin: 6px 0 0;
+  color: #8a8a8a;
+  font-size: 14px;
 }
 
-.scrollButton:hover {
-    background: #ccc;
+.notice {
+  margin: 0 0 16px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: #fafafa;
+  color: #555;
+  font-size: 14px;
 }
 
-
-/* 10. 그리드 섹션: 가로 스크롤 활성화 */
-.gridSection {
-    display: flex;
-    overflow-x: scroll; 
-    overflow-y: hidden; 
-    flex-wrap: nowrap; 
-    gap: 20px; 
-    
-    -ms-overflow-style: none; /* IE 및 Edge 스크롤바 숨김 */
-    scrollbar-width: none; /* Firefox 스크롤바 숨김 */
-}
-.gridSection::-webkit-scrollbar {
-    display: none; /* Chrome, Safari 스크롤바 숨김 */
+.textLink {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #8a8a8a;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
-/* 11. 카드 스타일 수정 (이미지 포함 구조) */
+.textLink:hover {
+  color: #173e99;
+}
+
+.primaryButton,
+.secondaryButton,
+.chatButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.primaryButton {
+  background: #1f4fbf;
+  border: 1px solid #1f4fbf;
+  color: #fff;
+}
+
+.primaryButton:hover {
+  background: #173e99;
+  border-color: #173e99;
+}
+
+.secondaryButton {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  color: #222;
+}
+
+.secondaryButton:hover {
+  border-color: #bbb;
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible,
+.chatButton:focus-visible,
+.card:focus-visible,
+.sortButton:focus-visible,
+.sortOption:focus-visible,
+.rankItem:focus-visible,
+.textLink:focus-visible {
+  outline: 2px solid #222;
+  outline-offset: 3px;
+}
+
+/* ---------- 2. 확인된 지원금 ---------- */
+.sectionTools {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 정렬 버튼 + 펼침 메뉴 */
+.sort {
+  position: relative;
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 12px 0 14px;
+  border: 1px solid #d6deeb;
+  border-radius: 10px;
+  background: #fff;
+  color: #1c2333;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sortButton:hover,
+.sortButton[aria-expanded='true'] {
+  border-color: #1f4fbf;
+  color: #1f4fbf;
+}
+
+.sortIcon,
+.sortChevron {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sortChevron {
+  color: #8a94a6;
+}
+
+.sortMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  min-width: 160px;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid #dfe5ef;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(14, 42, 102, 0.14);
+  list-style: none;
+}
+
+.sortOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 38px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: #3b4354;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sortOption:hover {
+  background: #f0f4fc;
+}
+
+.sortOptionOn {
+  color: #1f4fbf;
+  font-weight: 700;
+}
+
+.sortOption svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 지원금 카드 */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
 .card {
-    /* 카드의 너비를 고정하여 스크롤 시 일정하게 보이도록 합니다. */
-    flex: 0 0 350px; 
-    height: 300px; 
-    
-    /* 이미지와 텍스트를 수직으로 배치하기 위해 column으로 변경 */
-    display: flex; 
-    flex-direction: column;
-    justify-content: flex-start; /* 상단부터 채우도록 설정 */
-    align-items: stretch; /* 전체 너비를 사용하도록 설정 */
-
-    background-color: white;
-    border-radius: 15px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
-    text-decoration: none; 
-    color: #333; 
+  display: flex;
+  flex-direction: column;
+  min-height: 248px;
+  padding: 22px 22px 0;
+  border: 1px solid #e3e8f1;
+  border-radius: 16px;
+  background: #fff;
+  color: #1c2333;
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
 }
 
-/* 12. 카드 이미지 컨테이너 스타일 추가 */
-.cardImageContainer {
-    /* 카드 전체 높이의 약 50%를 차지하도록 설정 */
-    height: 150px;
-    overflow: hidden;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+.card:hover {
+  border-color: #1f4fbf;
+  box-shadow: 0 10px 24px rgba(31, 79, 191, 0.12);
+  transform: translateY(-2px);
 }
 
-/* 13. 실제 이미지 스타일 */
-.cardImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 이미지가 컨테이너를 가득 채우도록 합니다. */
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
-/* 14. 카드 텍스트 내용 스타일 추가 */
-.cardContent {
-    /* 나머지 150px를 차지하도록 설정 */
-    height: 150px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+/* D-day: 메인 색으로 채운 뱃지 */
+.dday {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: #1f4fbf;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 상시 모집: 연한 파랑 */
+.ddayAlways {
+  background: #e3ebfa;
+  color: #1f4fbf;
+}
+
+/* 이미 마감: 회색 */
+.ddayClosed {
+  background: #eef0f4;
+  color: #9aa3b5;
 }
 
 .cardCategory {
-    font-size: 13px;
-    font-weight: 500;
-    color: #ff85a1; /* 핑크색 강조 */
-    margin-bottom: 5px;
+  overflow: hidden;
+  color: #6b7486;
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 마감 표시: 평소엔 회색 글자, 2주 이내면 파랑 */
+.deadline {
+  flex-shrink: 0;
+  color: #8a8a8a;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.deadlineUrgent {
+  color: #173e99;
+}
+
+.deadlineClosed {
+  color: #bbb;
 }
 
 .cardTitle {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    /* 텍스트가 넘치면 ...으로 표시 */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card:hover .cardTitle {
+  color: #1f4fbf;
 }
 
 .cardDetail {
-    font-size: 14px;
-    color: #666;
-    /* 2줄까지만 표시하고 생략 */
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.4;
+  margin: 8px 0 0;
+  color: #6b7486;
+  font-size: 14px;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.statusLine {
-    color: #666;
-    font-size: 14px;
-    margin: 8px 0 16px 0;
+
+/* 주요 해시태그 */
+.cardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cardTags li {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #f0f4fc;
+  color: #1f4fbf;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* 카드 아래: 대상 + 자세히 */
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: auto -22px 0;
+  padding: 13px 22px;
+  border-top: 1px solid #eef0f4;
+}
+
+.cardTarget {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+  color: #3b4354;
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cardTarget svg {
+  flex: 0 0 15px;
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: #8a94a6;
+  stroke-width: 1.8;
+}
+
+.cardMore {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: #1f4fbf;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cardMore svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 카드 아래줄 바로 위 요소와 최소 18px 띄우기 (아래줄은 margin-top: auto 로 바닥에 붙음) */
+.cardTags,
+.cardDetail:nth-last-child(2) {
+  margin-bottom: 18px;
+}
+
+/* ---------- 3. 추천 + 모아챗 ---------- */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 40px;
+  align-items: start;
+  margin-top: 80px;
+}
+
+.recommend {
+  min-width: 0;
+  scroll-margin-top: 16px;
+}
+
+.recommendHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.emptyPanel {
+  margin-top: 16px;
+  padding: 28px;
+  border: 1px solid #ececec;
+  border-radius: 18px;
+}
+
+.emptyTitle {
+  margin: 0;
+  color: #222;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.emptyText {
+  margin: 6px 0 0;
+  color: #8a8a8a;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.emptyButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* 추천 순위 목록 */
+.rankList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rankList li {
+  border-bottom: 1px solid #ececec;
+}
+
+.rankItem {
+  display: flex;
+  gap: 24px;
+  padding: 24px 4px;
+  color: #222;
+  text-decoration: none;
+}
+
+.rankItem:hover .rankTitle {
+  color: #173e99;
+}
+
+.rankNumber {
+  flex: 0 0 28px;
+  padding-top: 2px;
+  color: #bbb;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rankList li:first-child .rankNumber {
+  color: #1f4fbf;
+}
+
+.rankBody {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rankTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-bottom: 8px;
+}
+
+/* 신청 가능 여부: 점 + 글자 */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.statusOk {
+  color: #173e99;
+}
+
+.statusCheck {
+  color: #8a8a8a;
+}
+
+.statusNo {
+  color: #bbb;
+}
+
+.rankTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  transition: color 0.15s;
+}
+
+.rankReason {
+  margin: 4px 0 0;
+  color: #8a8a8a;
+  font-size: 14px;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 추천 점수 막대 */
+.fit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.fitBar {
+  flex: 0 1 180px;
+  height: 3px;
+  border-radius: 999px;
+  background: #ececec;
+  overflow: hidden;
+}
+
+.fitFill {
+  display: block;
+  height: 100%;
+  background: #1f4fbf;
+}
+
+.fitScore {
+  color: #8a8a8a;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* 모아챗 안내 */
+.chatPanel {
+  position: sticky;
+  top: 24px;
+  padding: 28px;
+  border-radius: 20px;
+  background: #fafafa;
+}
+
+.chatTitle {
+  margin: 0;
+  color: #222;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.chatLead {
+  margin: 6px 0 0;
+  color: #8a8a8a;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.bubbles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 22px 0;
+}
+
+.bubbleUser,
+.bubbleBot {
+  max-width: 90%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.bubbleUser {
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  background: #1f4fbf;
+  color: #fff;
+}
+
+.bubbleBot {
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  background: #fff;
+  border: 1px solid #ececec;
+  color: #222;
+}
+
+.chatButton {
+  width: 100%;
+  background: #0e2a66;
+  border: 1px solid #0e2a66;
+  color: #fff;
+}
+
+.chatButton:hover {
+  background: #1f4fbf;
+}
+
+/* ---------- 좁은 화면 ---------- */
+@media (max-width: 960px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+
+  .chatPanel {
+    position: static;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      'banner'
+      'quick'
+      'card'
+      'hot';
+  }
+
+  .quickGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .banner {
+    align-items: flex-start;
+    min-height: 430px;
+    padding: 28px 24px;
+  }
+
+  .bannerText {
+    max-width: 100%;
+  }
+
+  .bannerArt {
+    right: 50%;
+    width: 220px;
+    height: 170px;
+    transform: translateX(50%);
+  }
+
+  .bannerMoa {
+    right: 50%;
+    height: 164px;
+    transform: translateX(50%);
+  }
+
+  .ringBig {
+    right: 0;
+    bottom: -80px;
+    width: 220px;
+    height: 220px;
+  }
+
+  /* 휴대폰: 화살표를 왼쪽 아래에 작게 */
+  .bannerArrow {
+    top: auto;
+    bottom: 14px;
+    width: 32px;
+    height: 32px;
+    transform: none;
+  }
+
+  .arrowPrev {
+    left: 16px;
+  }
+
+  .arrowNext {
+    right: auto;
+    left: 56px;
+  }
+
+  .bannerCount {
+    right: 16px;
+  }
+
+  .quickPanel {
+    padding: 20px;
+  }
+
+  .rankItem {
+    gap: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none;
+  }
+
+  .card,
+  .quickItem,
+  .rankTitle {
+    transition: none;
+  }
 }

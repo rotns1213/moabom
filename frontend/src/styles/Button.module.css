@@ -12,21 +12,21 @@
 }
 
 .primary {
-  background-color: #ff85a1;
+  background-color: #1f4fbf;
   color: #fff;
   border: none;
 }
 
 .primary:hover {
-  background-color: #ff6685;
+  background-color: #173e99;
 }
 
 .secondary {
   background-color: #fff;
-  color: #ffb6c1;
-  border: 1px solid #ffb6c1;
+  color: #8faae3;
+  border: 1px solid #8faae3;
 }
 
 .secondary:hover {
-  background-color: #fff5f8;
+  background-color: #f0f4fc;
 }

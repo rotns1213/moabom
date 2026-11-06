@@ -75,3 +75,11 @@ export function sendChat(message) {
     body: JSON.stringify({ message }),
   });
 }
+
+// 실시간 인기 지원금 순위 (조회·스크랩 수 기준)
+// 응답 예: { updatedAt: '2026-11-05T13:50:00', ranking: [{ rank: 1, change: 2, grant: {...} }, ...] }
+//   change: 지난 집계보다 오른 칸 수 (양수 = 상승, 음수 = 하락, 0 = 그대로, null = 새로 진입)
+// ※ 백엔드에 GET /grants/popular 가 있어야 동작합니다.
+export function getPopularGrants() {
+  return request('/grants/popular');
+}

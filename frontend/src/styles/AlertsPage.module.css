@@ -1,7 +1,7 @@
 .contentWrapper {
     max-width: 900px; 
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 20px);
 }
 
 /* 알림 페이지 제목 */
@@ -13,7 +13,8 @@
 }
 
 .mainTitle {
-    font-size: 32px;
+    margin: 0;
+    font-size: clamp(24px, 4vw, 32px);
     font-weight: bold;
     color: #333;
 }
@@ -30,7 +31,7 @@
 }
 
 .readAllButton:hover {
-    color: #ff85a1;
+    color: #1f4fbf;
 }
 
 .divider {
@@ -50,7 +51,7 @@
     position: relative;
     background-color: #fff;
     border-radius: 15px;
-    padding: 25px 30px;
+    padding: clamp(18px, 3vw, 25px) clamp(18px, 4vw, 30px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     transition: background-color 0.3s, box-shadow 0.3s;
     cursor: pointer;
@@ -61,10 +62,10 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* 읽지 않은 알림 스타일: 더 밝은 배경색과 왼쪽 핑크색 표시 */
+/* 읽지 않은 알림 스타일: 더 밝은 배경색과 왼쪽 파란색 표시 */
 .unread {
-    background-color: #fff7f9; /* 읽지 않은 알림을 강조 */
-    border-left: 5px solid #ff85a1; /* 핑크색 하이라이트 */
+    background-color: #f0f4fc; /* 읽지 않은 알림을 강조 */
+    border-left: 5px solid #1f4fbf; /* 파란색 하이라이트 */
 }
 
 /* 읽지 않은 알림을 표시하는 빨간 원 (읽지 않은 경우에만 표시됨) */
@@ -74,7 +75,7 @@
     left: -10px; 
     width: 15px;
     height: 15px;
-    background-color: #ff85a1; 
+    background-color: #1f4fbf; 
     border-radius: 50%;
 }
 
@@ -86,14 +87,14 @@
 }
 
 .title {
-    font-size: 20px;
+    font-size: clamp(17px, 2.2vw, 20px);
     font-weight: 600;
     color: #333;
     margin-bottom: 10px;
 }
 
 .type {
-    color: #ff85a1; /* 공지사항 타입 강조 */
+    color: #1f4fbf; /* 공지사항 타입 강조 */
     font-weight: 700;
     margin-right: 5px;
 }

@@ -59,8 +59,12 @@ function HeaderAccount() {
 
   if (!user) {
     return (
-      <Link to="/login" className={styles.guestLink}>
-        로그인 / 회원가입
+      <Link to="/login" className={styles.guestLink} aria-label="로그인 / 회원가입">
+        <svg className={styles.guestIcon} viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8.2" r="3.6" fill="none" stroke="currentColor" strokeWidth="1.6" />
+          <path d="M4.8 19.6c1.2-3.4 3.9-5 7.2-5s6 1.6 7.2 5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        </svg>
+        <span className={styles.guestText}>로그인 / 회원가입</span>
       </Link>
     );
   }

@@ -1,41 +1,44 @@
-/* src/styles/Header.module.css */
+/* src/styles/Header.module.css — 로그인/회원가입 화면 머리줄 */
 
 .header {
-  width: 100%;
-  padding: 15px; 
+  position: relative;
   display: flex;
   align-items: center;
-  
-  justify-content: center; 
-  position: relative; 
-  background-color: #fff5f8; 
-  border-bottom: none; 
-  box-shadow: none; 
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 60px;
+  padding: 10px 16px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
 }
 
-.left {
+.back {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #888;
   cursor: pointer;
-  padding: 5px;
-  
-
-  position: absolute; 
-  left: 15px; 
 }
 
-.nav {
-  display: flex;
-
-  gap: 300px; 
-
-  font-size: 16  px; 
-  
-
-  margin-left: -50px; 
-  
+.back:hover {
+  background: #f7f7f7;
   color: #333;
 }
 
-.navItem {
-  cursor: pointer;
-  padding: 5px 0;
+.logo {
+  color: #1f4fbf;
+  font-size: 20px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.back:focus-visible,
+.logo:focus-visible {
+  outline: 3px solid #333;
+  outline-offset: 2px;
 }

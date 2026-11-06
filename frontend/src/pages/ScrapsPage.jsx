@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { cancelScrap, getBehaviors, getGrants } from '../api/moabomApi';
 import { useAuth } from '../auth/AuthContext';
 import styles from '../styles/ScrapsPage.module.css';
+import { cleanTitle } from '../api/displayText';
 
 const ScrapsPage = () => {
   const { user, token } = useAuth();
@@ -78,7 +79,7 @@ const ScrapsPage = () => {
                     ? `${item.grant.categoryTitle} · ${item.grant.sample ? '예시' : '공개자료'}`
                     : '지원금'}
                 </div>
-                <div className={styles.cardTitle}>{item.grant ? item.grant.title : item.grantId}</div>
+                <div className={styles.cardTitle}>{item.grant ? cleanTitle(item.grant.title) : item.grantId}</div>
                 <div className={styles.detail}>
                   {item.grant ? item.grant.description : '지원금 정보를 찾지 못했습니다.'}
                 </div>

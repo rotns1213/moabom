@@ -60,3 +60,12 @@ export function updateAccount(token, account) {
 export function checkLoginId(loginId) {
   return request(`/auth/login-id?loginId=${encodeURIComponent(loginId)}`);
 }
+
+// 비밀번호 변경
+// ※ 백엔드에 PATCH /auth/password 가 있어야 동작합니다. (아직 없으면 404)
+export function changePassword(token, passwords) {
+  return request('/auth/password', {
+    method: 'PATCH',
+    body: JSON.stringify(passwords),
+  }, token);
+}

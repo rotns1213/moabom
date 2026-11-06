@@ -6,13 +6,13 @@
 .content {
   max-width: 900px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 20px);
   box-sizing: border-box;
 }
 
 .title {
   margin: 0 0 8px;
-  font-size: 32px;
+  font-size: clamp(24px, 4vw, 32px);
   font-weight: bold;
   color: #333;
 }
@@ -38,7 +38,7 @@
   border: 1px solid #f0f0f0;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  padding: 22px 24px;
+  padding: clamp(16px, 3vw, 22px) clamp(16px, 3vw, 24px);
 }
 
 .cardLink {
@@ -48,7 +48,7 @@
 }
 
 .category {
-  color: #ff85a1;
+  color: #1f4fbf;
   font-size: 13px;
   font-weight: 500;
   margin-bottom: 6px;
@@ -68,9 +68,9 @@
 
 .cancelButton {
   margin-top: 14px;
-  background-color: #ff85a1;
+  background-color: #1f4fbf;
   color: #fff;
-  border: 1px solid #ff85a1;
+  border: 1px solid #1f4fbf;
   padding: 8px 16px;
   border-radius: 6px;
   font-weight: bold;

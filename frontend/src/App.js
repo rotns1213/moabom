@@ -8,7 +8,6 @@ import ChatPage from './pages/ChatPage';
 import AlertsPage from './pages/AlertsPage'; // AlertsPage를 임포트합니다.
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import ProfilePage from './pages/ProfilePage';
 import ScrapsPage from './pages/ScrapsPage';
 import SiteHeader from './components/SiteHeader';
 import shellStyles from './components/SiteHeader.module.css';
@@ -40,8 +39,8 @@ function Frame() {
 
         <Route path="/scraps" element={<RequireAuth><ScrapsPage /></RequireAuth>} />
 
-        {/* 6. 임시 경로 */}
-        <Route path="/mypage" element={<RequireAuth><ProfilePage /></RequireAuth>} />
+        {/* 6. 마이페이지: 회원 정보·맞춤 조건 수정 (회원가입 화면을 로그인 상태로 사용) */}
+        <Route path="/mypage" element={<RequireAuth><RegisterPage /></RequireAuth>} />
         
         {/* 7. 일치하는 경로가 없을 경우 홈으로 리다이렉트 (404 역할) */}
         <Route path="*" element={<HomePage />} />

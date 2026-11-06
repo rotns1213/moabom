@@ -1,15 +1,60 @@
+/* ------------------------------------------------------------------
+   공통 기본 스타일 (모든 페이지에 적용)
+   - 브라우저(크롬, 엣지, 사파리, 파이어폭스)마다 기본값이 달라서
+     화면이 다르게 보이는 부분을 여기서 똑같이 맞춰 줍니다.
+------------------------------------------------------------------ */
+
+/* 1. 너비 계산 방식 통일: padding/border를 width 안에 포함 → 화면 밖으로 튀어나가지 않음 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* 휴대폰을 가로로 돌렸을 때 글자가 멋대로 커지는 것 방지 */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
-  margin: 0; 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  margin: 0;
+  min-width: 320px;
+  /* 2. 글꼴 통일: Pretendard(웹폰트)를 먼저 쓰고, 못 불러오면 각 운영체제 한글 글꼴 사용 */
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', 'Segoe UI',
+    Roboto, sans-serif;
+  line-height: 1.5;
+  color: #333;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-
-  overflow-x: hidden; 
+  overflow-x: hidden;
+  word-break: keep-all; /* 한글 단어 중간에서 줄이 끊기지 않게 */
+  overflow-wrap: break-word; /* 너무 긴 영어/URL은 줄바꿈 */
 }
+
+/* 3. 버튼/입력창 글꼴 통일: 브라우저마다 버튼 글꼴·크기가 달라서 깨져 보이는 문제 해결 */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* 사파리에서 검색창 모양이 둥글게 바뀌는 것 방지 */
+input[type='search'] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* 4. 이미지는 부모 영역보다 커지지 않게 */
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
